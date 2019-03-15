@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <script src="js/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/101/three.min.js"></script>
   <script src="js/STLLoader.js"></script>
   <script>
     // ページの読み込みを待つ
@@ -23,16 +23,16 @@
         const scene = new THREE.Scene();
 
         // カメラを作成
-        const camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
+        const camera = new THREE.PerspectiveCamera(45, width / height);
         camera.position.set(0, 0, +1000);
 
         // 球体を作成
-        // const geometry = new THREE.SphereGeometry(300, 30, 30);
-        // const material = new THREE.MeshStandardMaterial({color: 0xFF0000});
+        const geometry = new THREE.SphereGeometry(300, 30, 30);
+        const material = new THREE.MeshStandardMaterial({color: 0xFF0000});
 
         // 画像を読み込む
-        // const loader = new THREE.TextureLoader();
-        // const texture = loader.load('img/2k_mercury.jpg');
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('img/2k_mercury.jpg');
 
         // マテリアルにテクスチャーを設定
         // const material = new THREE.MeshStandardMaterial({
@@ -40,35 +40,34 @@
         // });
 
 
-        var loader = new THREE.STLLoader();
-        loader.load('stl/272528B00009.stl', function(geometry) {
-            var material = new THREE.MeshLambertMaterial( { ambient: 0xffffff, color: 0xffffff} );
-            var mesh = new THREE.Mesh( geometry, material );
-            mesh.rotation.y = 0;
-            scene.add(mesh);
-        });
+        // var loader = new THREE.STLLoader();
+        // loader.load('stl/277176-40009.stl', function(geometry) {
+        //     var material = new THREE.MeshLambertMaterial( { ambient: 0xffffff, color: 0xffffff} );
+        //     var mesh = new THREE.Mesh( geometry, material );
+        //     mesh.rotation.y = 0;
+        //     scene.add(mesh);
+        // });
 
         // メッシュを作成
-        //const mesh = new THREE.Mesh(geometry, material);
-        // 3D空間にメッシュを追加
-        //scene.add(mesh);
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
 
         // 平行光源
         const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
         directionalLight.position.set(1, 1, 1);
-        // シーンに追加
         scene.add(directionalLight);
 
         tick();
 
         // 毎フレーム時に実行されるループイベントです
         function tick() {
+            requestAnimationFrame(tick);
+            
             // メッシュを回転させる
-            mesh.rotation.y += 0.01;
+            //mesh.rotation.y += 0.01;
             // レンダリング
             renderer.render(scene, camera);
 
-            requestAnimationFrame(tick);
         }
     }
   </script>
